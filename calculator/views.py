@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 DATA = {
     'omlet': {
@@ -25,5 +24,7 @@ def calc_recipes(request, dish):
     dictionary = {}
     for i in msg.keys():
         dictionary[i] = msg[i] * int(quantity)
-    result = '<br> '.join([f'{key}: {value}' for key, value in dictionary.items()])
-    return HttpResponse(str(result))
+    context = {}
+    context['recipe'] = {key: value for key, value in dictionary.items()}
+
+    return render(request, 'calculator/index.html', context=context)
